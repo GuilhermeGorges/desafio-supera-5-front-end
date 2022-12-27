@@ -4,45 +4,49 @@ import Header from "./components/header";
 import Resume from "./components/resume";
 import Form from "./components/form";
 import { TaskService } from "./services/api/tasks/TaskService";
+import { ApiException } from "./services/api/ApiException";
 
-interface Transference {
-    data: Data;
-    valo: Number;
-    tipo: String;
-    operadorTransicionado: String;
-}
 
 const App = () => {
-  const data = [Object];
-  const [transactionsList, setTransactionsList] = useState<[Transference]>([]);
-  const [total, setTotal] = useState(0);
-  const [expense, setExpense] = useState(0);
+    const [transactionsList, setTransactionsList] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [expense, setExpense] = useState(0);
+    const [accountId, setAccountId] = useState(0);
+    const [filter, setFilter] = useState(null);
+
 
     useEffect(() => {
-        TaskService.getAllTransferenceByAccountId()
-    }, []);
+        TaskService.getAllTransferenceByAccountId(accountId, filter)
+            .then((result) => {
+                if (result instanceof ApiException) {
+                    alert(result.message);
+                } else {
+                    setTotal(result);
+                    setExpense(result);
+                    setTransactionsList(result);
+                }
+            });
+            setAccountId(null);
+            setFilter(null);
+        }, []);
 
 
-  const getData = (accountId, filter) => {
-   // data = getAllTransferenceByAccountId(accountId, filter);
+    const setDataFilter = (accountId, filter) => {
+        setAccountId(accountId);
+        setFilter(filter);
+    };
 
-    const transferenceList = [Transference];
-    setTotal();
-    setExpense();
-    setTransactionsList(transferenceList);
-  };
-
-  return (
-    <>
-      <Header />
-      <Resume expense={expense} total={total} />
-      <Form
-        transactionsList={transactionsList}
-        setTransactionsList={setTransactionsList}
-      />
-      <GlobalStyle />
-    </>
-  );
+    return (
+        <>
+            <Header />
+            <Resume expense={expense} total={total} />
+            <Form
+                transactionsList={transactionsList}
+                setTransactionsList={setTransactionsList}
+            />
+            <GlobalStyle />
+        </>
+    );
 };
 
 export default App;

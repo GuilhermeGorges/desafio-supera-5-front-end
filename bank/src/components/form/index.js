@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Grid from "../grid";
 import * as C from "./styles";
 
-const Form = ({ getData, transactionsList, setTransactionsList }) => {
+const Form = ({ setDataFilter, transactionsList, setTransactionsList }) => {
   const [accountId, setAccountId] = useState(null);
   const [initialFilterDate, setInitialFilterDate] = useState("");
   const [endFilterDate, setEndFilterDate] = useState("");
@@ -16,7 +16,7 @@ const Form = ({ getData, transactionsList, setTransactionsList }) => {
       transferOperationName: transferOperationName,
     };
 
-    getData(accountId, filter);
+    setDataFilter(accountId, filter);
 
     setAccountId(null)
     setInitialFilterDate("");

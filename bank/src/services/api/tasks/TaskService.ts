@@ -1,12 +1,11 @@
+import { ApiException } from "../ApiException";
 import { Api } from "../ApiConfig";
-import { ApiExeption } from "../ApiExeption";
 
 export interface BankTransaction {
-    transferencesList: Array<Transference>;
+    transferencesList: Array<Object>;
     totalBalance: Number;
 }
-
-interface Transference {
+export interface Transference {
     id: Number;
     value: Number;
     transferenceDate: Date;
@@ -20,13 +19,12 @@ interface Account {
     name: String;
 }
 
-const getAllTransferenceByAccountId = async (account: Number, filter: Object): Promise<BankTransaction | ApiExeption> => {
+const getAllTransferenceByAccountId = async (account: Number, filter: Object): Promise<BankTransaction | ApiException> => {
     try{
-
         const { data } = await Api().get(`/transference/${account}`, filter);
         return data;
     } catch (err: any) {
-        return new ApiExeption(err.message || 'Erro ao consultar a API.');
+        return new ApiException(err.message || 'Erro ao consultar a API.');
     }
 };
 
