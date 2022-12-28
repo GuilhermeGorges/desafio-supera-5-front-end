@@ -19,9 +19,16 @@ interface Account {
     name: String;
 }
 
-const getAllTransferenceByAccountId = async (account: Number, filterRequestDTO: Object): Promise<BankTransaction | ApiException> => {
+interface Filter {
+    initialFilterDate: Date,
+    endFilterDate: Date,
+    transferOperationName: String,
+  };
+
+
+const getAllTransferenceByAccountId = async (account: Number, params: Filter): Promise<BankTransaction | ApiException> => {
     try{
-        const { data } = await Api().get(`/transference/${account}`, { params: { filterRequestDTO: filterRequestDTO } });
+        const { data } = await Api().get(`/transference/${account}`, { params });
         return data;
     } catch (err: any) {
         return new ApiException(err.message || 'Erro ao consultar a API.');
