@@ -1,13 +1,13 @@
 import React from "react";
 import * as C from "./styles";
 
-const GridItem = ({ transference }) => {
+const GridItem = ({ item }) => {
   return (
     <C.Tr>
-      <C.Td>{transference.data}</C.Td>
-      <C.Td>{transference.value}</C.Td>
-      <C.Td>{transference.type}</C.Td>
-      <C.Td>{transference.transferOperationName}</C.Td>
+      <C.Td>{item.transferenceDate}</C.Td>
+      <C.Td>{item.value}</C.Td>
+      <C.Td>{item.type}</C.Td>
+      <C.Td>{item.transferOperationName}</C.Td>
     </C.Tr>
   );
 };

@@ -15,9 +15,10 @@ const Grid = ({ transference }) => {
         </C.Tr>
       </C.Thead>
       <C.Tbody>
-        {transference?.map((transference, index) => (
-          <GridItem key={index} item={transference} />
-        ))}
+        {
+          transference?.map((transference, id ) => (
+            <GridItem item={transference} key={id} />
+          ))}
       </C.Tbody>
     </C.Table>
   );

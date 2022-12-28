@@ -3,7 +3,7 @@ import Grid from "../grid";
 import * as C from "./styles";
 
 const Form = ({ setDataFilter, transactionsList, setTransactionsList }) => {
-  const [accountId, setAccountId] = useState(null);
+  const [accountId, setAccountId] = useState(0);
   const [initialFilterDate, setInitialFilterDate] = useState("");
   const [endFilterDate, setEndFilterDate] = useState("");
   const [transferOperationName, setTransferOperationName] = useState("");
@@ -18,7 +18,7 @@ const Form = ({ setDataFilter, transactionsList, setTransactionsList }) => {
 
     setDataFilter(accountId, filter);
 
-    setAccountId(null)
+    setAccountId(0)
     setInitialFilterDate("");
     setEndFilterDate("");
     setTransferOperationName("");
@@ -29,7 +29,7 @@ const Form = ({ setDataFilter, transactionsList, setTransactionsList }) => {
       <C.Container>
         <C.InputContent>
           <C.Label>ID Conta</C.Label>
-          <C.Input value={accountId} onChange={(e) => setAccountId(e.target.value)} />
+          <C.Input value={parseInt(accountId)} onChange={(e) => setAccountId(e.target.value)} />
         </C.InputContent>
         <C.InputContent>
           <C.Label>Data Inicial</C.Label>
@@ -53,7 +53,7 @@ const Form = ({ setDataFilter, transactionsList, setTransactionsList }) => {
         </C.InputContent>
         <C.Button onClick={setFilterParams}>PESQUISAR</C.Button>
       </C.Container>
-      <Grid itens={transactionsList} setItens={setTransactionsList} />
+      <Grid transference={transactionsList} setTransferences={setTransactionsList} />
     </>
   );
 };

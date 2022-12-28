@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import GlobalStyle from "./styles/global";
 import Header from "./components/header";
 import Resume from "./components/resume";
@@ -11,29 +11,18 @@ const App = () => {
     const [transactionsList, setTransactionsList] = useState([]);
     const [total, setTotal] = useState(0);
     const [expense, setExpense] = useState(0);
-    const [accountId, setAccountId] = useState(0);
-    const [filter, setFilter] = useState(null);
-
-
-    useEffect(() => {
-        TaskService.getAllTransferenceByAccountId(accountId, filter)
-            .then((result) => {
-                if (result instanceof ApiException) {
-                    alert(result.message);
-                } else {
-                    setTotal(result);
-                    setExpense(result);
-                    setTransactionsList(result);
-                }
-            });
-            setAccountId(null);
-            setFilter(null);
-        }, []);
-
 
     const setDataFilter = (accountId, filter) => {
-        setAccountId(accountId);
-        setFilter(filter);
+        TaskService.getAllTransferenceByAccountId(accountId, filter)
+            .then((resp) => {
+                if (resp instanceof ApiException) {
+                    alert(resp.message);
+                } else {
+                    setTotal(resp.totalAccountBalance);
+                    setExpense(resp.totalExtractBalance);
+                    setTransactionsList(resp.transferenceList);
+                }
+            });
     };
 
     return (
@@ -41,6 +30,7 @@ const App = () => {
             <Header />
             <Resume expense={expense} total={total} />
             <Form
+                setDataFilter={setDataFilter}
                 transactionsList={transactionsList}
                 setTransactionsList={setTransactionsList}
             />
